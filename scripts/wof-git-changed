@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+# -*-python-*
+
+import sys
+import logging
+import mapzen.whosonfirst.git
+
+
+if __name__ == '__main__':
+
+   import optparse
+   opt_parser = optparse.OptionParser()
+
+   opt_parser.add_option('--start', dest='start', action='store', default=None, help='')
+   opt_parser.add_option('--stop', dest='stop', action='store', default=None, help='')
+
+   opt_parser.add_option('-v', '--verbose', dest='verbose', action='store_true', default=False, help='Be chatty (default is false)')
+   options, args = opt_parser.parse_args()
+   
+   if options.verbose:	
+      logging.basicConfig(level=logging.DEBUG)
+   else:
+      logging.basicConfig(level=logging.INFO)
+
+   start = options.start
+   stop = options.stop
+
+   if not start:
+      start = mapzen.whosonfirst.git.get_previous_hash()
+
+   if not stop:
+      stop = mapzen.whosonfirst.git.get_current_hash()
+
+   files = mapzen.whosonfirst.git.get_diff(start, stop)
+
+   for f in files:
+      print f
+
+   sys.exit(0)

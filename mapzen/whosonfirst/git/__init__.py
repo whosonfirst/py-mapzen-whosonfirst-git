@@ -11,17 +11,27 @@ import subprocess
 
 import logging
 
-def get_current_hash():
-    return get_commit_hash(1)
+def get_current_hash(**kwargs):
+    return get_commit_hash(1, **kwargs)
 
-def get_previous_hash():
-    return get_commit_hash(2)
+def get_previous_hash(**kwargs):
+    return get_commit_hash(2, **kwargs)
 
-def get_commit_hash(offset):
+def get_commit_hash(offset, **kwargs):
 
     str_offset = "-%s" % offset
 
-    cmd = ["git", "log", str_offset, "HEAD"]
+    cmd = ["git", "log", str_offset]
+
+    if kwargs.has_key("merges"):
+
+        if kwargs["merges"]:
+            cmd.append("--merges")
+        else:
+            cmd.append("--no-merges")
+
+    cmd.append("HEAD")
+
     logging.debug(" ".join(cmd))
     
     out = subprocess.check_output(cmd)

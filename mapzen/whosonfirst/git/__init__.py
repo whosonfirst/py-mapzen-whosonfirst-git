@@ -56,16 +56,7 @@ def get_commit_hash(offset, **kwargs):
 
 def get_diff(start=None, stop=None):
 
-    # UUUUUUUUGGGGGGHHHHHHHHHHHHH.... basically the subprocess module
-    # escapes the hell out '--pretty="format:"' exactly as it should
-    # but there is no good easy way (that I can find) make everyone
-    # happy and tolerant of one another. So instead we split on \n\n
-    # below and assume (...hope) that the last blob is what we're
-    # after. Sad face... (20160513/thisisaaronland)
-
-    # cmd = [ "git", "show", '--pretty="format:"', "--name-only" ]
-
-    cmd = [ "git", "show", "--name-only" ]
+    cmd = [ "git", "show", '--pretty=format:', "--name-only" ]
 
     if start and stop:
         cmd.append(start)
@@ -73,9 +64,8 @@ def get_diff(start=None, stop=None):
 
     logging.debug(" ".join(cmd))
 
-    out = subprocess.check_output(cmd)
+    raw = subprocess.check_output(cmd)
+    raw = raw.strip()
 
-    out = out.split("\n\n")
-    body = out[-1].splitlines()
-
-    return body
+    diff = raw.splitlines()
+    return diff

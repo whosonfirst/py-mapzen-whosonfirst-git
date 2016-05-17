@@ -3,16 +3,16 @@
 
 import sys
 import logging
+import os.path
 import mapzen.whosonfirst.git
-
 
 if __name__ == '__main__':
 
    import optparse
    opt_parser = optparse.OptionParser()
 
-   opt_parser.add_option('--start', dest='start', action='store', default=None, help='')
-   opt_parser.add_option('--stop', dest='stop', action='store', default=None, help='')
+   opt_parser.add_option('--start-commit', dest='start_commit', action='store', default=None, help='')
+   opt_parser.add_option('--stop-commit', dest='stop_commit', action='store', default=None, help='')
 
    opt_parser.add_option('-v', '--verbose', dest='verbose', action='store_true', default=False, help='Be chatty (default is false)')
    options, args = opt_parser.parse_args()
@@ -22,16 +22,26 @@ if __name__ == '__main__':
    else:
       logging.basicConfig(level=logging.INFO)
 
-   start = options.start
-   stop = options.stop
+   whoami = os.path.abspath(sys.argv[0])
+   whatami = os.path.basename(whoami)
 
-   if not start:
-      start = mapzen.whosonfirst.git.get_previous_hash()
+   start_commit = options.start_commit
+   stop_commit = options.stop_commit
 
-   if not stop:
-      stop = mapzen.whosonfirst.git.get_current_hash()
+   if start_commit:
 
-   files = mapzen.whosonfirst.git.get_diff(start, stop)
+      if not stop_commit:
+         last_commit = mapzen.whosonfirst.git.get_current_hash()
+         stop_commit = last_commit
+
+      logging.info("invoking git-whosonfirst-mapzen %s hooks for %s - %s" % (whatami, start_commit, stop_commit))
+
+   else:
+
+      last_commit = mapzen.whosonfirst.git.get_current_hash()
+      logging.info("invoking git-whosonfirst-mapzen %s hooks for whatever is different from %s" % (whatami, last_commit))
+
+   files = mapzen.whosonfirst.git.get_diff(start_commit, stop_commit)
 
    for f in files:
       print f

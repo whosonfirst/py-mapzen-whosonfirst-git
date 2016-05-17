@@ -34,12 +34,12 @@ if __name__ == '__main__':
          last_commit = mapzen.whosonfirst.git.get_current_hash()
          stop_commit = last_commit
 
-      logging.info("invoking git-whosonfirst-mapzen %s hooks for %s - %s" % (whatami, start_commit, stop_commit))
+      logging.info("list diff between %s - %s" % (start_commit, stop_commit))
 
    else:
 
       last_commit = mapzen.whosonfirst.git.get_current_hash()
-      logging.info("invoking git-whosonfirst-mapzen %s hooks for whatever is different from %s" % (whatami, last_commit))
+      logging.info("list diff for whatever is different from %s" % last_commit)
 
    files = mapzen.whosonfirst.git.get_diff(start_commit, stop_commit)
 

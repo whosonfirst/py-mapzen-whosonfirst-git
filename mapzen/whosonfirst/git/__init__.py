@@ -56,7 +56,8 @@ def get_commit_hash(offset, **kwargs):
 
 def get_diff(start=None, stop=None):
 
-    cmd = [ "git", "show", '--pretty=format:', "--name-only" ]
+    # cmd = [ "git", "show", '--pretty=format:', "--name-only" ]
+    cmd = [ "git", "diff", '--pretty=format:', "--name-only" ]
 
     if start and stop:
         cmd.append(start)

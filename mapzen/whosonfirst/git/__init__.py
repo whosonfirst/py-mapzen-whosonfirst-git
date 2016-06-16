@@ -56,19 +56,16 @@ def get_commit_hash(offset, **kwargs):
 
 def get_diff(start=None, stop=None):
     
-    cmd = [ "git", "show", '--pretty=format:', "--name-only" ]
+    # cmd = [ "git", "show", '--pretty=format:', "--name-only" ]
+    cmd = [ "git", "diff", '--pretty=format:', "--name-only" ]
 
-    # BE WARNED THAT 'git diff ...' RESULTS IN WEIRDNESS LIKE
-    # NO FILES BEING LISTED WHEN RUN FROM THE GIT HOOKS BECAUSE
-    # ... COMPUTERS? (20160614/thisisaaronland)
-    # 
-    # cmd = [ "git", "diff", '--pretty=format:', "--name-only" ]
-
-    if start and stop:
+    if start:
         cmd.append(start)
+
+    if stop:
         cmd.append(stop)
 
-    logging.debug(" ".join(cmd))
+    logging.info(" ".join(cmd))
 
     raw = subprocess.check_output(cmd)
     logging.debug(raw)

@@ -1,6 +1,3 @@
-# https://pythonhosted.org/setuptools/setuptools.html#namespace-packages
-__import__('pkg_resources').declare_namespace(__name__)
-
 # So there is also this http://www.pygit2.org/
 # which yeah maybe sure but today I am just trying to 
 # move the git specific logic from git-whosonfirst-hooks

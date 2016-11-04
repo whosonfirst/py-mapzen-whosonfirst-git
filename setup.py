@@ -19,7 +19,7 @@ version = open("VERSION").read()
 
 setup(
     name='mapzen.whosonfirst.git',
-    namespace_packages=['mapzen', 'mapzen.whosonfirst', 'mapzen.whosonfirst.git'],
+    namespace_packages=['mapzen', 'mapzen.whosonfirst'],
     version=version,
     description='Simple Python utilities for working with Who\'s On First files and Git',
     author='Mapzen',

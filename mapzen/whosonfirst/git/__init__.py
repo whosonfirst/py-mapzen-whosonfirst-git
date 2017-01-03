@@ -8,6 +8,23 @@ import subprocess
 
 import logging
 
+def get_current_branch():
+
+    cmd = [ "git", "branch" ]
+
+    logging.debug(" ".join(cmd))
+    
+    out = subprocess.check_output(cmd)
+    out = out.splitlines()
+
+    for branch in out:
+
+        if branch.startswith("* "):
+            branch = branch.replace("* ", "")
+            return branch
+
+    raise Exception, "can't figure out current branch..."
+
 def get_current_hash(**kwargs):
     return get_commit_hash(1, **kwargs)
 

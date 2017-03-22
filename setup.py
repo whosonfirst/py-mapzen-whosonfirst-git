@@ -24,10 +24,6 @@ setup(
     description='Simple Python utilities for working with Who\'s On First files and Git',
     author='Mapzen',
     url='https://github.com/mapzen/py-mapzen-whosonfirst-git',
-    install_requires=[
-        ],
-    dependency_links=[
-        ],
     packages=packages,
     scripts=[
         'scripts/wof-git-changed'
